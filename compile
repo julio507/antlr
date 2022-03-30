@@ -1,0 +1,18 @@
+#!/bin/bash
+
+out=Test
+
+if test $# == 0; then
+    echo "Missing file to compile!"
+else
+    if java -cp antlr-4.5.3.jar:. ExpParser < $1 > $out.j; then
+        if java -jar jasmin-2.4.jar $out.j; then
+            java -cp . $out
+        else
+            rm -f $out.class
+        fi
+    else
+        rm -f $out.j
+    fi
+fi
+
