@@ -1,0 +1,28 @@
+begin
+    i = 0
+
+    while(i<=6)
+    {
+        print( i )
+        i = i + 1
+
+        if(i>=3)
+        {
+            colorB( 1 )
+            print( "deu" )
+
+            print( "certo" )
+            
+            reset
+        }
+    }
+
+    i = 10
+
+    while(i>=6)
+    {
+        print( i )
+        i = i - 1
+    }
+
+end
