@@ -39,6 +39,7 @@ COLORLINE: 'colorL';
 COLORBACKGROUND: 'colorB';
 RESETSTYLE: 'reset';
 GOTO: 'goto';
+LABEL: 'label';
 
 PLUS: '+';
 MINUS: '-';
@@ -94,7 +95,19 @@ statement: (
 		| background
 		| line
 		| resetstyle
+		| gotoest
+        | label
 	);
+
+label:
+    NL LABEL OPEN_P NUM CLOSE_P {
+        System.out.println( "Label" + $NUM.text + ":" ); 
+    };
+
+gotoest:
+	NL GOTO OPEN_P NUM CLOSE_P {
+        System.out.println( "   goto Label" + $NUM.text );  
+    };
 
 whilest:
 	{

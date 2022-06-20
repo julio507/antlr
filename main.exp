@@ -1,5 +1,19 @@
 begin
+    i = 1
 
+    colorB(6)
+    
+    print(i)
+    
+    reset()
+
+    while( i < 5 )
+    {
+        i = i + 1
+
+        print(i)
+        colorL(i)
+    }
 
     a = input()
 
