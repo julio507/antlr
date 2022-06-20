@@ -9,6 +9,7 @@ grammar Exp;
 @members {
     //private static ArrayList<String> symbol_table;
     private static Map<String, Integer> stack = new HashMap<String, Integer>();
+    private static Map<String, Integer> types = new HashMap<String, Integer>();
     int stackCounter = 0;
     int whileCount = 0;
     int ifCount = 0;
@@ -33,6 +34,7 @@ PRINT: 'print';
 QUOTE: '"';
 CHARS: '"' ~["]* '"';
 PLAY: 'play';
+INPUT: 'input';
 COLORLINE: 'colorL';
 COLORBACKGROUND: 'colorB';
 RESETSTYLE: 'reset';
@@ -88,6 +90,7 @@ statement: (
 		| print
 		| assignment
 		| play
+		| input
 		| background
 		| line
 		| resetstyle
@@ -214,17 +217,36 @@ play:
         System.out.println("    invokestatic Lib/playSound()V\n");
     };
 
+input:
+	NL
+	| INPUT {
+        System.out.println("    ;getstatic Lib;");
+        System.out.println("    invokestatic Lib/readInput()Ljava/lang/String;\n");
+    } OPEN_P CLOSE_P NL;
 
 print:
 	NL
 	| PRINT OPEN_P {   System.out.println("    getstatic java/lang/System/out Ljava/io/PrintStream;"); 
+    } VAR CLOSE_P NL {  
+        if( types.get($VAR.text) == 0)
+        {
+            System.out.println("    iload " + stack.get($VAR.text)); 
+            System.out.println("    invokevirtual java/io/PrintStream/println(I)V\n");        
+        }
+        else
+        {
+            System.out.println("    aload " + stack.get($VAR.text)); 
+            System.out.println("    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V\n"); 
+        }
+    }
+	| PRINT OPEN_P {   System.out.println("    getstatic java/lang/System/out Ljava/io/PrintStream;"); 
 		} expression CLOSE_P NL {   System.out.println("    invokevirtual java/io/PrintStream/println(I)V\n"); 
-		}
+    }
 	| PRINT OPEN_P {
         System.out.println("    getstatic java/lang/System/out Ljava/io/PrintStream;");
-      } string CLOSE_P NL {
+    } string CLOSE_P NL {
         System.out.println("    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V\n");
-      };
+    };
 
 assignment:
 	NL
@@ -240,7 +262,24 @@ assignment:
         {
             stack.put($VAR.text, stackCounter);
         }
-    } expression NL { System.out.println("    istore "+s); s++ ;};
+
+        types.put( $VAR.text, 0 );
+    } expression NL { System.out.println("    istore "+s); s++ ;}
+	| VAR ATTRIB {
+        int s = stackCounter;
+        
+        if( stack.containsKey( $VAR.text ) )
+        {
+            s = stack.get( $VAR.text );
+        }
+
+        else
+        {
+            stack.put($VAR.text, stackCounter);
+        }
+
+        types.put( $VAR.text, 1 );
+    } ( string|input) NL { System.out.println("    astore "+s); s++ ;};
 
 expression:
 	term (
@@ -256,10 +295,19 @@ term:
 
 factor:
 	NUM { System.out.println("    ldc " + $NUM.text); }
-	| VAR { System.out.println("    iload " + stack.get($VAR.text)); }
+	| VAR { 
+        if( types.get($VAR.text) == 0)
+        {
+            System.out.println("    iload " + stack.get($VAR.text)); 
+        }
+        else
+        {
+            System.out.println("    aload " + stack.get($VAR.text)); 
+        }
+    }
 	| OPEN_P expression CLOSE_P;
 
 string:
 	CHARS {
         System.out.println("    ldc " + $CHARS.text);
-     };
+    };
