@@ -279,7 +279,7 @@ assignment:
         }
 
         types.put( $VAR.text, 1 );
-    } ( string|input) NL { System.out.println("    astore "+s); s++ ;};
+    } (string | input) NL { System.out.println("    astore "+s); s++ ;};
 
 expression:
 	term (
