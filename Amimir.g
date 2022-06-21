@@ -1,4 +1,4 @@
-grammar Exp;
+grammar Amimir;
 
 @header {
     //import java.util.ArrayList;
@@ -16,9 +16,9 @@ grammar Exp;
     public static void main(String[] args) throws Exception
     {
         ANTLRInputStream input = new ANTLRInputStream(System.in);
-        ExpLexer lexer = new ExpLexer(input);
+        AmimirLexer lexer = new AmimirLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-        ExpParser parser = new ExpParser(tokens);
+        AmimirParser parser = new AmimirParser(tokens);
 
         //symbol_table = new ArrayList<String>();
         parser.program();
