@@ -40,6 +40,7 @@ COLORBACKGROUND: 'colorB';
 RESETSTYLE: 'reset';
 GOTO: 'goto';
 LABEL: 'label';
+FUNC: 'func';
 
 PLUS: '+';
 MINUS: '-';
@@ -96,11 +97,28 @@ statement: (
 		| line
 		| resetstyle
 		| gotoest
-        | label
+		| label
+		| func
+        | call
 	);
 
+call:
+	NL CHARS OPEN_P CLOSE_P {
+        System.out.println( "   goto FuncStart" + $CHARS.text );
+        System.out.println( "FuncResume" + $CHARS.text + ":" );
+    };
+
+func:
+	NL FUNC ' ' CHARS OPEN_P CLOSE_P OPEN_C {
+        System.out.println( "   goto FuncEnd" + $CHARS.text );  
+        System.out.println( "FuncStart" + $CHARS.text + ":" );
+    } (statement)* CLOSE_C{
+        System.out.println( "   goto FuncResume" + $CHARS.text );  
+        System.out.println( "FuncEnd" + $CHARS.text + ":" );
+    };
+
 label:
-    NL LABEL OPEN_P NUM CLOSE_P {
+	NL LABEL OPEN_P NUM CLOSE_P {
         System.out.println( "Label" + $NUM.text + ":" ); 
     };
 

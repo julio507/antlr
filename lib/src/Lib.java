@@ -2,6 +2,10 @@ import java.awt.Toolkit;
 
 public class Lib {
 
+    public static void main(String[] args) {
+        playSound();
+    }
+
     public static String readInput(){
         return System.console().readLine();
     }
