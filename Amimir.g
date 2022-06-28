@@ -83,8 +83,8 @@ main:
                 System.out.println(".method public static main([Ljava/lang/String;)V\n");
             } (statement)* END NL {
                 System.out.println("    return");
-                System.out.println(".limit locals 10");
-                System.out.println(".limit stack 10");
+                System.out.println(".limit locals " + stackCounter );
+                System.out.println(".limit stack " + stackCounter);
                 System.out.println(".end method");
             };
 

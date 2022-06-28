@@ -92,6 +92,8 @@ Iend1:
 
     ldc 1
     istore 4
+    ldc 0
+    istore 2
 Iend2:
    goto Wstart1
 Wend1:
@@ -102,8 +104,8 @@ Wend1:
     ;getstatic Lib;
     invokestatic Lib/readInput()Ljava/lang/String;
 
-    astore 9
-    aload 9
+    astore 10
+    aload 10
     ;getstatic Lib;
     invokestatic Lib/parseInt(Ljava/lang/String;)I
 
@@ -111,6 +113,6 @@ Wend1:
    goto Wstart0
 Wend0:
     return
-.limit locals 10
-.limit stack 10
+.limit locals 12
+.limit stack 12
 .end method
