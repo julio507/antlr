@@ -10,109 +10,196 @@
 
 .method public static main([Ljava/lang/String;)V
 
-    ldc 0
-    istore 0
-    ldc 1
-    istore 1
-    ldc 0
-    istore 2
-   goto FuncEnd"sorteiaNumero"
-FuncStart"sorteiaNumero":
-    ldc 0
-    ldc 10
-    ;getstatic Lib;
-    invokestatic Lib/random(II)I
-
-    istore 0
-   goto FuncResume"sorteiaNumero"
-FuncEnd"sorteiaNumero":
-Wstart0:
-    iload 1
-    ldc 1
-   if_icmpne Wend0
-   goto FuncStart"sorteiaNumero"
-FuncResume"sorteiaNumero":
-    ldc 0
-    istore 4
     getstatic java/lang/System/out Ljava/io/PrintStream;
-    ldc "Pensei um numero de 1 a 10"
+    ldc "Amimir!!"
     invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
-Wstart1:
-    iload 4
-    ldc 0
-   if_icmpne Wend1
-    iload 2
     ldc 1
-    iadd
-    istore 2
+    istore 0
+    ldc 0
+    istore 1
+Wstart0:
+    iload 0
+    ldc 1
+   if_icmpne Wend0
     getstatic java/lang/System/out Ljava/io/PrintStream;
-    ldc "Chuta um valor ai"
+    ldc "Escolha uma cor!! Digite um número de 1 a 7! Valores > 7 saem do Laço de repetição."
     invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
     ;getstatic Lib;
     invokestatic Lib/readInput()Ljava/lang/String;
 
-    astore 6
-    aload 6
+    astore 2
+    aload 2
     ;getstatic Lib;
     invokestatic Lib/parseInt(Ljava/lang/String;)I
 
-    istore 7
-    iload 7
-    iload 0
-   if_icmpge Iend0
-    getstatic java/lang/System/out Ljava/io/PrintStream;
-    ldc "Chutou baixo"
-    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+    istore 3
+    iload 3
+    ldc 7
+   if_icmple Iend0
+    ldc 0
+    istore 0
+    ;getstatic Lib;
+    invokestatic Lib/resetStyle()V
 
 Iend0:
-    iload 7
-    iload 0
-   if_icmple Iend1
+    iload 3
+    ldc 1
+   if_icmpne Iend1
+    ;getstatic Lib;
+    iload 3
+    invokestatic Lib/colorLine(I)V
+
     getstatic java/lang/System/out Ljava/io/PrintStream;
-    ldc "Chutou alto"
+    ldc "Vermelho!"
     invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
 Iend1:
-    iload 7
-    iload 0
+    iload 3
+    ldc 2
    if_icmpne Iend2
-    getstatic java/lang/System/out Ljava/io/PrintStream;
-    ldc "Acertou!"
-    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+    ;getstatic Lib;
+    iload 3
+    invokestatic Lib/colorLine(I)V
 
     getstatic java/lang/System/out Ljava/io/PrintStream;
-    ldc "Tentativas:"
+    ldc "Verde!"
     invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
+Iend2:
+    iload 3
+    ldc 3
+   if_icmpne Iend3
+    ;getstatic Lib;
+    iload 3
+    invokestatic Lib/colorLine(I)V
+
     getstatic java/lang/System/out Ljava/io/PrintStream;
-    iload 2
+    ldc "Amarelo!"
+    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+
+Iend3:
+    iload 3
+    ldc 4
+   if_icmpne Iend4
+    ;getstatic Lib;
+    iload 3
+    invokestatic Lib/colorLine(I)V
+
+    getstatic java/lang/System/out Ljava/io/PrintStream;
+    ldc "Azul!"
+    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+
+Iend4:
+    iload 3
+    ldc 5
+   if_icmpne Iend5
+    ;getstatic Lib;
+    iload 3
+    invokestatic Lib/colorLine(I)V
+
+    getstatic java/lang/System/out Ljava/io/PrintStream;
+    ldc "Lilás!"
+    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+
+Iend5:
+    iload 3
+    ldc 6
+   if_icmpne Iend6
+    ;getstatic Lib;
+    iload 3
+    invokestatic Lib/colorLine(I)V
+
+    getstatic java/lang/System/out Ljava/io/PrintStream;
+    ldc "Ciano!"
+    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+
+Iend6:
+    iload 3
+    ldc 7
+   if_icmpne Iend7
+    ;getstatic Lib;
+    iload 3
+    invokestatic Lib/colorLine(I)V
+
+    getstatic java/lang/System/out Ljava/io/PrintStream;
+    ldc "Branco!"
+    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+
+Iend7:
+   goto Wstart0
+Wend0:
+    ;getstatic Lib;
+    ldc 4
+    invokestatic Lib/colorBackground(I)V
+
+    getstatic java/lang/System/out Ljava/io/PrintStream;
+    ldc "Exemplo com fundo Azul!!!"
+    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+
+    ;getstatic Lib;
+    invokestatic Lib/resetStyle()V
+
+    ldc 0
+    istore 5
+    getstatic java/lang/System/out Ljava/io/PrintStream;
+    ldc "Laço de repetição 1 ao 5"
+    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+
+Wstart1:
+    iload 5
+    ldc 5
+   if_icmpge Wend1
+    iload 5
+    ldc 1
+    iadd
+    istore 5
+    getstatic java/lang/System/out Ljava/io/PrintStream;
+    iload 5
     invokevirtual java/io/PrintStream/println(I)V
 
-    ldc 1
-    istore 4
-    ldc 0
-    istore 2
-Iend2:
    goto Wstart1
 Wend1:
     getstatic java/lang/System/out Ljava/io/PrintStream;
-    ldc "Para jogar novamente precione 1"
+    ldc "Conta: 8*6/4"
+    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+
+    ldc 8
+    istore 7
+    ldc 6
+    istore 8
+    ldc 4
+    istore 9
+    iload 7
+    iload 8
+    imul
+    iload 9
+    idiv
+    istore 10
+    getstatic java/lang/System/out Ljava/io/PrintStream;
+    iload 10
+    invokevirtual java/io/PrintStream/println(I)V
+
+    ;getstatic Lib;
+    ldc 4
+    invokestatic Lib/colorBackground(I)V
+
+    ;getstatic Lib;
+    ldc 6
+    invokestatic Lib/colorLine(I)V
+
+    getstatic java/lang/System/out Ljava/io/PrintStream;
+    ldc "Beeeeeeepppp"
     invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
     ;getstatic Lib;
-    invokestatic Lib/readInput()Ljava/lang/String;
+    invokestatic Lib/resetStyle()V
 
-    astore 10
-    aload 10
     ;getstatic Lib;
-    invokestatic Lib/parseInt(Ljava/lang/String;)I
+    invokestatic Lib/playSound()V
 
-    istore 1
-   goto Wstart0
-Wend0:
     return
-.limit locals 12
-.limit stack 12
+.limit locals 11
+.limit stack 11
 .end method

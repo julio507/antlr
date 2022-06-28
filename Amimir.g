@@ -261,7 +261,7 @@ play:
 	NL
 	| PLAY OPEN_P {
         System.out.println("    ;getstatic Lib;");
-    } factor CLOSE_P NL {
+    } CLOSE_P NL {
         System.out.println("    invokestatic Lib/playSound()V\n");
     };
 
