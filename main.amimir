@@ -1,8 +1,51 @@
 begin
+    s=0
+    c=1
+    t=0
 
-    func "olar"(){
-        print("olar")
+    func "sorteiaNumero"(){
+        s=random(0,10)
     }
 
-    "olar"()
+
+    while(c==1){
+        "sorteiaNumero"()
+
+        a=0
+
+        print("Pensei um numero de 1 a 10")
+
+        while(a==0){
+            t=t+1
+
+            print("Chuta um valor ai")
+            n=input()
+
+            m=parseInt(n)
+
+            if(m<s){
+                print("Chutou baixo")
+            }
+
+            if(m>s){
+                print("Chutou alto")
+            }
+
+            if(m==s){
+                print("Acertou!")
+
+                print("Tentativas:")
+                print(t)
+
+                a=1
+                t=0
+            }
+        }
+
+        print("Para jogar novamente precione 1")
+
+        z=input()
+
+        c=parseInt(z)
+    }
 end

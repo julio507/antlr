@@ -41,6 +41,8 @@ RESETSTYLE: 'reset';
 GOTO: 'goto';
 LABEL: 'label';
 FUNC: 'func';
+RANDOM: 'random';
+PARSEINT: 'parseInt';
 
 PLUS: '+';
 MINUS: '-';
@@ -99,8 +101,22 @@ statement: (
 		| gotoest
 		| label
 		| func
-        | call
+		| call
+        | random
+        | parseInt
 	);
+
+parseInt:
+    PARSEINT OPEN_P factor CLOSE_P {
+        System.out.println("    ;getstatic Lib;");
+        System.out.println("    invokestatic Lib/parseInt(Ljava/lang/String;)I\n");
+    };
+
+random:
+    RANDOM OPEN_P factor ',' factor CLOSE_P{
+        System.out.println("    ;getstatic Lib;");
+        System.out.println("    invokestatic Lib/random(II)I\n");
+    };
 
 call:
 	NL CHARS OPEN_P CLOSE_P {
@@ -112,7 +128,7 @@ func:
 	NL FUNC ' ' CHARS OPEN_P CLOSE_P OPEN_C {
         System.out.println( "   goto FuncEnd" + $CHARS.text );  
         System.out.println( "FuncStart" + $CHARS.text + ":" );
-    } (statement)* CLOSE_C{
+    } (statement)* CLOSE_C {
         System.out.println( "   goto FuncResume" + $CHARS.text );  
         System.out.println( "FuncEnd" + $CHARS.text + ":" );
     };
@@ -129,7 +145,8 @@ gotoest:
 
 whilest:
 	{
-        System.out.println( "Wstart" + whileCount + ":" ); 
+        final int w = whileCount++;
+        System.out.println( "Wstart" + w + ":" ); 
     } NL WHILE OPEN_P term op = (
 		EQUALS
 		| NOTEQUALS
@@ -140,38 +157,37 @@ whilest:
 	) term {
         if( $op.type == EQUALS )
         {
-            System.out.println( "   if_icmpne Wend" + whileCount );
+            System.out.println( "   if_icmpne Wend" + w );
         }
 
         else if( $op.type == NOTEQUALS )
         {
-            System.out.println( "   if_icmpeq Wend" + whileCount );
+            System.out.println( "   if_icmpeq Wend" + w );
         }
 
         else if( $op.type == MORETHAN )
         {
-            System.out.println( "   if_icmple Wend" + whileCount );
+            System.out.println( "   if_icmple Wend" + w );
         }
 
         else if( $op.type == LESSTHAN )
         {
-            System.out.println( "   if_icmpge Wend" + whileCount );
+            System.out.println( "   if_icmpge Wend" + w );
         }
 
         else if( $op.type == MOREEQUALTHAN )
         {
-            System.out.println( "   if_icmplt Wend" + whileCount );
+            System.out.println( "   if_icmplt Wend" + w );
         }
 
         else if( $op.type == LESSEQUALTHAN )
         {
-            System.out.println( "   if_icmpgt Wend" + whileCount );
+            System.out.println( "   if_icmpgt Wend" + w );
         }
 
-    } CLOSE_P NL OPEN_C (statement)* CLOSE_C {
-    System.out.println( "   goto Wstart" + whileCount );  
-    System.out.println( "Wend" + whileCount + ":" );
-    whileCount++;
+    } CLOSE_P OPEN_C (statement)* CLOSE_C {
+    System.out.println( "   goto Wstart" + w );  
+    System.out.println( "Wend" + w + ":" );
 };
 
 ifst:
@@ -183,38 +199,39 @@ ifst:
 		| MOREEQUALTHAN
 		| LESSEQUALTHAN
 	) term { 
+        final int i = ifCount++;        
+
         if( $op.type == EQUALS )
         {
-            System.out.println( "   if_icmpne Iend" + ifCount );
+            System.out.println( "   if_icmpne Iend" + i );
         }
 
         else if( $op.type == NOTEQUALS )
         {
-            System.out.println( "   if_icmpeq Iend" + ifCount );
+            System.out.println( "   if_icmpeq Iend" + i );
         }
         
         else if( $op.type == MORETHAN )
         {
-            System.out.println( "   if_icmple Iend" + ifCount );
+            System.out.println( "   if_icmple Iend" + i );
         }
 
         else if( $op.type == LESSTHAN )
         {
-            System.out.println( "   if_icmpge Iend" +ifCount );
+            System.out.println( "   if_icmpge Iend" +i );
         }
 
         else if( $op.type == MOREEQUALTHAN )
         {
-            System.out.println( "   if_icmplt Iend" + whileCount );
+            System.out.println( "   if_icmplt Iend" + i );
         }
 
         else if( $op.type == LESSEQUALTHAN )
         {
-            System.out.println( "   if_icmpgt Iend" + whileCount );
+            System.out.println( "   if_icmpgt Iend" + i );
         }
-    } CLOSE_P NL OPEN_C (statement)* CLOSE_C {
-        System.out.println( "Iend" + ifCount + ":" );
-        ifCount++;        
+    } CLOSE_P OPEN_C (statement)* CLOSE_C {
+        System.out.println( "Iend" + i + ":" );
     };
 
 resetstyle:
@@ -249,11 +266,10 @@ play:
     };
 
 input:
-	NL
-	| INPUT {
+	INPUT {
         System.out.println("    ;getstatic Lib;");
         System.out.println("    invokestatic Lib/readInput()Ljava/lang/String;\n");
-    } OPEN_P CLOSE_P NL;
+    } OPEN_P CLOSE_P;
 
 print:
 	NL
@@ -295,7 +311,10 @@ assignment:
         }
 
         types.put( $VAR.text, 0 );
-    } expression NL { System.out.println("    istore "+s); s++ ;}
+    } ( expression | random | parseInt ) NL { 
+        System.out.println("    istore "+s); 
+        stackCounter++ ;
+    }
 	| VAR ATTRIB {
         int s = stackCounter;
         
@@ -310,7 +329,10 @@ assignment:
         }
 
         types.put( $VAR.text, 1 );
-    } (string | input) NL { System.out.println("    astore "+s); s++ ;};
+    } (string | input) NL { 
+        System.out.println("    astore "+s); 
+        stackCounter++ ;
+    };
 
 expression:
 	term (
