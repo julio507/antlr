@@ -1,0 +1,84 @@
+begin
+print("Amimir!!")
+
+    c=1
+
+    while(c==1){
+    
+    print("Escolha uma cor!! Digite um número de 1 a 7! Valores > 7 saem do Laço de repetição.")
+    b=input()
+    a=parseInt(b)
+    
+    if(a>7){
+        c=0
+        reset()        
+    }
+
+    if(a==1){
+        colorL(a)
+        print("Vermelho!")
+    }
+
+    if(a==2){
+        colorL(a)
+        print("Verde!")
+    }
+
+    if(a==3){
+        colorL(a)
+        print("Amarelo!")
+    }
+
+    if(a==4){
+        colorL(a)
+        print("Azul!")
+    }
+
+    if(a==5){
+        colorL(a)
+        print("Lilás!")
+    }
+
+    if(a==6){
+        colorL(a)
+        print("Ciano!")
+    }
+
+    if(a==7){
+        colorL(a)
+        print("Branco!")
+    
+    }
+    
+
+}
+    colorB(4)
+    print("Exemplo com fundo Azul!!!")
+    reset()
+
+    i=0
+    
+    print("Laço de repetição 1 ao 5")
+    
+    while(i<5){
+    i=i+1
+
+    print(i)
+}
+    print("Conta: 8*6/4")
+    n=8
+    m=6
+    o=4
+    p=n*m/o
+    print(p)
+    
+    colorB(4)
+    
+    colorL(6)
+    
+    
+    print("Beeeeeeepppp")
+    reset()
+    
+    play()
+end
