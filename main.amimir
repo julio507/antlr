@@ -6,33 +6,43 @@ begin
     func "sorteiaNumero"(){
         s=random(0,10)
     }
-
-
+    
     while(c==1){
         "sorteiaNumero"()
-
+        
         a=0
-
+	
+        colorL(2)	
         print("Pensei um numero de 1 a 10")
+        reset()
 
         while(a==0){
+            
             t=t+1
-
+            colorL(3)
             print("Chuta um valor ai")
+            reset()
             n=input()
 
             m=parseInt(n)
 
             if(m<s){
+                colorL(6)
                 print("Chutou baixo")
+                reset()
             }
 
             if(m>s){
+                colorL(4)
                 print("Chutou alto")
+                reset()
             }
 
             if(m==s){
+                colorL(5)
                 print("Acertou!")
+                reset()
+                play()
 
                 print("Tentativas:")
                 print(t)
